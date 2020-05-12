@@ -24,7 +24,7 @@ namespace myTiles {
 }
 function doNarrator () {
     scene.setBackgroundColor(1)
-    Narrator = sprites.create(img`
+    Narrator2 = sprites.create(img`
 . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . . . . . 
@@ -50,12 +50,12 @@ function doNarrator () {
 . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . . . . . 
 `, SpriteKind.Narrator)
-    game.showLongText("Welcome to the Underworld. To make your escape you must complete the mazes. Good luck.", DialogLayout.Bottom)
+    game.showLongText("Welcome to the Underworld. To make your escape you must complete the mazes. Good luck. Press A to start", DialogLayout.Bottom)
     pause(100)
-    Narrator.destroy()
+    Narrator2.destroy()
 }
-let Narrator: Sprite = null
-let Player1 = sprites.create(img`
+function doPlayer () {
+    Player1 = sprites.create(img`
 . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . f f f f . . . . . . . . . . . . . . . 
 . . . f f f 2 2 f f f . . . . . . . . . . . . . 
@@ -81,23 +81,48 @@ f b b b b f 2 2 2 2 f d 4 . . . . . . . . . . .
 . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . . . . . 
 `, SpriteKind.Player)
-tiles.setTilemap(tiles.createTilemap(
-            hex`0a000d000001050505050505060000020f0f0f0f0f0f070000020f0f0f0f0f0f070000020f0f0f0f0f0f070000020f0f0f0f0f0f07000004090a0f0f0b090800000000020f0f0700000000010c0d0f0f0e05060000020f0f0f0f0f0f070000021212121212120700000212121212121207000002121212121212070000040909090909090800`,
+    tiles.setTilemap(tiles.createTilemap(
+            hex`0a000d001401050505050505061414020f0f0f0f0f0f071414020f0f0f0f0f0f071414020f0f0f0f0f0f071414020f0f0f0f0f0f07141404090a0f0f0b090814141414020f0f0714141414010c0d0f0f0e05061414020f0f0f0f0f0f071414021212121212120714140212121212121207141402121212121213071414040909090909090814`,
             img`
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
-. . . . . . . . . . 
+2 2 2 2 2 2 2 2 2 2 
+2 2 . . . . . . 2 2 
+2 2 . . . . . . 2 2 
+2 2 . . . . . . 2 2 
+2 2 . . . . . . 2 2 
+2 2 2 2 . . 2 2 2 2 
+2 2 2 2 . . 2 2 2 2 
+2 2 2 2 . . 2 2 2 2 
+2 2 . . . . . . 2 2 
+2 2 . . . . . . 2 2 
+2 2 . . . . . . 2 2 
+2 2 . . . . . . 2 2 
+2 2 2 2 2 2 2 2 2 2 
 `,
-            [myTiles.tile0,sprites.dungeon.purpleOuterNorthWest,sprites.dungeon.purpleOuterWest0,sprites.dungeon.purpleOuterEast1,sprites.dungeon.purpleOuterSouthEast,sprites.dungeon.purpleOuterNorth0,sprites.dungeon.purpleOuterNorthEast,sprites.dungeon.purpleOuterEast0,sprites.dungeon.purpleOuterSouthWest,sprites.dungeon.purpleOuterSouth0,sprites.dungeon.purpleInnerNorthEast,sprites.dungeon.purpleInnerNorthWest,sprites.dungeon.purpleOuterNorth1,sprites.dungeon.purpleInnerSouthEast,sprites.dungeon.purpleInnerSouthWest,sprites.dungeon.floorLight4,sprites.dungeon.floorLight2,sprites.dungeon.purpleOuterWest1,sprites.dungeon.floorLight0],
+            [myTiles.tile0,sprites.dungeon.purpleOuterNorthWest,sprites.dungeon.purpleOuterWest0,sprites.dungeon.purpleOuterEast1,sprites.dungeon.purpleOuterSouthEast,sprites.dungeon.purpleOuterNorth0,sprites.dungeon.purpleOuterNorthEast,sprites.dungeon.purpleOuterEast0,sprites.dungeon.purpleOuterSouthWest,sprites.dungeon.purpleOuterSouth0,sprites.dungeon.purpleInnerNorthEast,sprites.dungeon.purpleInnerNorthWest,sprites.dungeon.purpleOuterNorth1,sprites.dungeon.purpleInnerSouthEast,sprites.dungeon.purpleInnerSouthWest,sprites.dungeon.floorLight4,sprites.dungeon.floorLight2,sprites.dungeon.purpleOuterWest1,sprites.dungeon.floorLight0,sprites.dungeon.buttonOrange,sprites.dungeon.hazardLava1],
             TileScale.Sixteen
         ))
+    controller.moveSprite(Player1)
+    scene.cameraFollowSprite(Player1)
+}
+let Player1: Sprite = null
+let Narrator2: Sprite = null
+doPlayer()
+let enemyprojectile = sprites.create(img`
+. . . . . . . . . c c 8 . . . . 
+. . . . . . 8 c c c f 8 c c . . 
+. . . c c 8 8 f c a f f f c c . 
+. . c c c f f f c a a f f c c c 
+8 c c c f f f f c c a a c 8 c c 
+c c c b f f f 8 a c c a a a c c 
+c a a b b 8 a b c c c c c c c c 
+a f c a a b b a c c c c c f f c 
+a 8 f c a a c c a c a c f f f c 
+c a 8 a a c c c c a a f f f 8 a 
+. a c a a c f f a a b 8 f f c a 
+. . c c b a f f f a b b c c 6 c 
+. . . c b b a f f 6 6 a b 6 c . 
+. . . c c b b b 6 6 a c c c c . 
+. . . . c c a b b c c c . . . . 
+. . . . . c c c c c c . . . . . 
+`, SpriteKind.Projectile)
+enemyprojectile.setPosition(42, 47)
