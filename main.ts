@@ -149,26 +149,47 @@ f b b b b f 2 2 2 2 f d 4 . . . . . . . . . . .
 . . . . . . . . . . . . . . . . . . . . . . . . 
 `, SpriteKind.Player)
 controller.moveSprite(Player1)
+Player1.setPosition(61, 26)
 tiles.setTilemap(tiles.createTilemap(
-            hex`1000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000`,
+            hex`10001000262626262626262626262626262626262626261b2626262626262626262626262626261b2626262626262626262626262626261b2626262626262626262626262626261b1b1f1d201e2122231c2427262626261b1b1b1b1b1b1b1b1b1b1b2a262626261b262626261b262626262626262626261b262626261b262626262626262626261b262626261b262626262626262626261b262626261b262626262626262626261b262626261b1b1d201e2122262626261b262626261b1b1b1b1b1b1b2626262625262626262626262626261b2626262625262626262626262626261b26262626252626262626262626261b1b2626262625252525252525252525292626`,
             img`
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
+2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+2 2 2 . 2 2 2 2 2 2 2 2 2 2 2 2 
+2 2 2 . 2 2 2 2 2 2 2 2 2 2 2 2 
+2 2 2 . 2 2 2 2 2 2 2 2 2 2 2 2 
+2 2 2 . . 2 2 2 2 2 2 2 2 2 2 2 
+2 2 2 . . . . . . . . . . . . 2 
+2 2 2 . 2 2 2 2 . 2 2 2 2 2 2 2 
+2 2 2 . 2 2 2 2 . 2 2 2 2 2 2 2 
+2 2 2 . 2 2 2 2 . 2 2 2 2 2 2 2 
+2 2 2 . 2 2 2 2 . 2 2 2 2 2 2 2 
+2 2 2 . 2 2 2 2 . . 2 2 2 2 2 2 
+2 2 2 . 2 2 2 2 . . . . . . . 2 
+2 2 2 2 2 2 2 2 2 2 2 2 2 2 . 2 
+2 2 2 2 2 2 2 2 2 2 2 2 2 2 . 2 
+2 2 2 2 2 2 2 2 2 2 2 2 2 . . 2 
+2 2 2 2 2 2 2 2 2 2 2 2 2 . 2 2 
 `,
-            [myTiles.tile0],
+            [myTiles.tile0,sprites.builtin.oceanDepths3,sprites.builtin.oceanDepths6,sprites.builtin.oceanDepths4,sprites.builtin.oceanDepths8,sprites.builtin.oceanDepths9,sprites.builtin.oceanSand6,sprites.builtin.oceanSand10,sprites.builtin.oceanSand3,sprites.builtin.oceanSand0,sprites.dungeon.greenOuterNorthWest,sprites.dungeon.greenOuterWest0,sprites.dungeon.greenOuterNorth1,sprites.dungeon.greenOuterNorthEast,sprites.dungeon.greenOuterEast0,sprites.dungeon.greenOuterSouthEast,sprites.dungeon.greenInnerSouthWest,sprites.dungeon.greenInnerSouthEast,sprites.dungeon.greenInnerNorthEast,sprites.dungeon.greenInnerNorthWest,sprites.dungeon.greenOuterSouth0,sprites.dungeon.greenOuterWest1,sprites.dungeon.greenOuterNorth0,sprites.dungeon.greenOuterSouthWest,sprites.dungeon.greenOuterSouth1,sprites.builtin.brick,sprites.dungeon.hazardSpike,sprites.dungeon.collectibleInsignia,sprites.builtin.crowd7,sprites.builtin.crowd1,sprites.builtin.crowd3,sprites.builtin.crowd0,sprites.builtin.crowd2,sprites.builtin.crowd4,sprites.builtin.crowd5,sprites.builtin.crowd6,sprites.builtin.crowd8,sprites.dungeon.hazardLava0,sprites.dungeon.hazardLava1,sprites.builtin.crowd9,sprites.dungeon.hazardWater,sprites.dungeon.stairLadder,sprites.dungeon.buttonOrange],
             TileScale.Sixteen
         ))
+scene.cameraFollowSprite(Player1)
+let Enemy1 = sprites.create(img`
+. . f f f . . . . . . . . . . . 
+f f f c c . . . . . . . . f f f 
+f f c c c . c c . . . f c b b c 
+f f c 3 c c 3 c c f f b b b c . 
+f f c 3 b c 3 b c f b b c c c . 
+f c b b b b b b c f b c b c c . 
+c c 1 b b b 1 b c b b c b b c . 
+c b b b b b b b b b c c c b c . 
+c b 1 f f 1 c b b c c c c c . . 
+c f 1 f f 1 f b b b b f c . . . 
+f f f f f f f b b b b f c . . . 
+f f 2 2 2 2 f b b b b f c c . . 
+. f 2 2 2 2 2 b b b c f . . . . 
+. . f 2 2 2 b b b c f . . . . . 
+. . . f f f f f f f . . . . . . 
+. . . . . . . . . . . . . . . . 
+`, SpriteKind.Enemy)
+Enemy1.follow(Player1)
