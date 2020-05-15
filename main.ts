@@ -63,6 +63,26 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonTeal, function (spr
         tiles.setTileAt(value, sprites.dungeon.stairLarge)
     }
 })
+controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
+    enemyprojectile = sprites.createProjectileFromSprite(img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . c b a c . . . . . . 
+. . . . c c b c f a c . . . . . 
+. . . . a f b b b a c . . . . . 
+. . . . a f f b a f c c . . . . 
+. . . . c b b a f f c . . . . . 
+. . . . . b b a f a . . . . . . 
+. . . . . . c b b . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`, Player1, 50, 100)
+})
 function doPlayer () {
     Player1 = sprites.create(img`
 . . . . . . . . . . . . . . . . . . . . . . . . 
@@ -120,6 +140,7 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonOrange, function (s
         tiles.setWallAt(value, false)
     }
 })
+let enemyprojectile: Sprite = null
 let Narrator2: Sprite = null
 let Player1: Sprite = null
 Player1 = sprites.create(img`
@@ -151,20 +172,20 @@ f b b b b f 2 2 2 2 f d 4 . . . . . . . . . . .
 controller.moveSprite(Player1)
 Player1.setPosition(61, 26)
 tiles.setTilemap(tiles.createTilemap(
-            hex`10001000262626262626262626262626262626262626261b2626262626262626262626262626261b2626262626262626262626262626261b2626262626262626262626262626261b1b1f1d201e2122231c2427262626261b1b1b1b1b1b1b1b1b1b1b2a262626261b262626261b262626262626262626261b262626261b262626262626262626261b262626261b262626262626262626261b262626261b262626262626262626261b262626261b1b1d201e2122262626261b262626261b1b1b1b1b1b1b2626262625262626262626262626261b2626262625262626262626262626261b26262626252626262626262626261b1b2626262625252525252525252525292626`,
+            hex`10001000262626262626262626262626262626262626261b2626262626262626262626262626261b2626262626262626262626262626261b2626262626262626262626262626261b1a1f1d201e2122231c2427262626261a1b1b1b1b1b1b1a1b1b1b2a262626261b262626261b262626262626262626261b262626261a262626262626262626261b262626261b262626262626262626261b262626261b262626262626262626261b262626261b1b1d201e2122262626261a262626261b1b1b1b1b1b1b2626262625262626262626262626261b2626262625262626262626262626261b26262626252626262626262626261b1b2626262625252525252525252525292626`,
             img`
 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
 2 2 2 . 2 2 2 2 2 2 2 2 2 2 2 2 
 2 2 2 . 2 2 2 2 2 2 2 2 2 2 2 2 
 2 2 2 . 2 2 2 2 2 2 2 2 2 2 2 2 
-2 2 2 . . 2 2 2 2 2 2 2 2 2 2 2 
-2 2 2 . . . . . . . . . . . . 2 
+2 2 2 . 2 2 2 2 2 2 2 2 2 2 2 2 
+2 2 2 2 . . . . . . 2 . . . . 2 
 2 2 2 . 2 2 2 2 . 2 2 2 2 2 2 2 
-2 2 2 . 2 2 2 2 . 2 2 2 2 2 2 2 
+2 2 2 . 2 2 2 2 2 2 2 2 2 2 2 2 
 2 2 2 . 2 2 2 2 . 2 2 2 2 2 2 2 
 2 2 2 . 2 2 2 2 . 2 2 2 2 2 2 2 
 2 2 2 . 2 2 2 2 . . 2 2 2 2 2 2 
-2 2 2 . 2 2 2 2 . . . . . . . 2 
+2 2 2 2 2 2 2 2 . . . . . . . 2 
 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . 2 
 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . 2 
 2 2 2 2 2 2 2 2 2 2 2 2 2 . . 2 
@@ -174,22 +195,3 @@ tiles.setTilemap(tiles.createTilemap(
             TileScale.Sixteen
         ))
 scene.cameraFollowSprite(Player1)
-let Enemy1 = sprites.create(img`
-. . f f f . . . . . . . . . . . 
-f f f c c . . . . . . . . f f f 
-f f c c c . c c . . . f c b b c 
-f f c 3 c c 3 c c f f b b b c . 
-f f c 3 b c 3 b c f b b c c c . 
-f c b b b b b b c f b c b c c . 
-c c 1 b b b 1 b c b b c b b c . 
-c b b b b b b b b b c c c b c . 
-c b 1 f f 1 c b b c c c c c . . 
-c f 1 f f 1 f b b b b f c . . . 
-f f f f f f f b b b b f c . . . 
-f f 2 2 2 2 f b b b b f c c . . 
-. f 2 2 2 2 2 b b b c f . . . . 
-. . f 2 2 2 b b b c f . . . . . 
-. . . f f f f f f f . . . . . . 
-. . . . . . . . . . . . . . . . 
-`, SpriteKind.Enemy)
-Enemy1.follow(Player1)

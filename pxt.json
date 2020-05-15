@@ -1,7 +1,9 @@
 {
     "name": "D.Karpe MADPID Project",
     "dependencies": {
-        "device": "*"
+        "device": "*",
+        "arcade-sprite-data": "github:microsoft/arcade-sprite-data#v0.0.5",
+        "darts": "*"
     },
     "description": "",
     "files": [
