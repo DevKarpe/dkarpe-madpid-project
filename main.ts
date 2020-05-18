@@ -70,6 +70,33 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonTeal, function (spr
         tiles.setTileAt(value, sprites.dungeon.stairLarge)
     }
 })
+controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
+    enemyprojectile = sprites.createProjectileFromSprite(img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . c b a c . . . . . . 
+. . . . c c b c f a c . . . . . 
+. . . . a f b b b a c . . . . . 
+. . . . a f f b a f c c . . . . 
+. . . . c b b a f f c . . . . . 
+. . . . . b b a f a . . . . . . 
+. . . . . . c b b . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`, Player1, 0, 48)
+})
+scene.onOverlapTile(SpriteKind.Player, sprites.builtin.brick, function (sprite, location) {
+    tiles.setTileAt(location, sprites.dungeon.floorDark3)
+    for (let value of tiles.getTilesByType(sprites.dungeon.collectibleInsignia)) {
+        tiles.setTileAt(value, sprites.dungeon.floorDark3)
+    }
+    doWin()
+})
 function doPlayer () {
     Player1 = sprites.create(img`
 . . . . . . . . . . . . . . . . . . . . . . . . 
@@ -120,25 +147,8 @@ f b b b b f 2 2 2 2 f d 4 . . . . . . . . . . .
     controller.moveSprite(Player1)
     scene.cameraFollowSprite(Player1)
 }
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    enemyprojectile = sprites.createProjectileFromSprite(img`
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . c b a c . . . . . . 
-. . . . c c b c f a c . . . . . 
-. . . . a f b b b a c . . . . . 
-. . . . a f f b a f c c . . . . 
-. . . . c b b a f f c . . . . . 
-. . . . . b b a f a . . . . . . 
-. . . . . . c b b . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-`, Player1, 0, 48)
+scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.stairLarge, function (sprite, location) {
+    doLevel2()
 })
 scene.onHitWall(SpriteKind.Projectile, function (sprite) {
     tiles.setTileAt(tiles.getTileLocation(3, 5), sprites.dungeon.collectibleInsignia)
@@ -153,39 +163,10 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonOrange, function (s
         tiles.setWallAt(value, false)
     }
 })
-let enemyprojectile: Sprite = null
-let Narrator2: Sprite = null
-let Player1: Sprite = null
-Player1 = sprites.create(img`
-. . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . f f f f . . . . . . . . . . . . . . . 
-. . . f f f 2 2 f f f . . . . . . . . . . . . . 
-. . f f f 2 2 2 2 f f f . . . . . . . . . . . . 
-. f f f e e e e e e f f f . . . . . . . . . . . 
-. f f e 2 2 2 2 2 2 e e f . . . . . . . . . . . 
-. f e 2 f f f f f f 2 e f . . . . . . . . . . . 
-. f f f f e e e e f f f f . . . . . . . . . . . 
-f f e f b f 4 4 f b f e f f . . . . . . . . . . 
-f e e 4 1 f d d f 1 4 e e f . . . . . . . . . . 
-. f f f f d d d d d e e f . . . . . . . . . . . 
-f d d d d f 4 4 4 e e f . . . . . . . . . . . . 
-f b b b b f 2 2 2 2 f 4 e . . . . . . . . . . . 
-f b b b b f 2 2 2 2 f d 4 . . . . . . . . . . . 
-. f c c f 4 5 5 4 4 f 4 4 . . . . . . . . . . . 
-. . f f f f f f f f . . . . . . . . . . . . . . 
-. . . . f f . . f f . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . . . . . . . . . 
-`, SpriteKind.Player)
-controller.moveSprite(Player1)
-Player1.setPosition(61, 26)
-tiles.setTilemap(tiles.createTilemap(
-            hex`10001000262626262626262626262626262626262626261b2626262626262626262626262626261b2626262626262626262626262626261b2626262626262626262626262626261b1a1f1d201e2122231c2427262626261a1b1b1b1b1b1b1b1b1b1b2d262626261b262626261b262626262626262626261b262626261b262626262626262626261b262626261b262626262626262626261b262626261b262626262626262626261b262626261b1b1d201e2122262626261b262626261b1b1b1b1b1b1b2626262625262626262626262626261b2626262625262626262626262626261b262626262526262626262626262626262626262625252525252525252525292626`,
+function doLevel2 () {
+    Player1.setPosition(61, 26)
+    tiles.setTilemap(tiles.createTilemap(
+            hex`10001000262626262626262626262626262626262626261b2626262626262626262626262626261b2626262626262626262626262626261b2626262626262626262626262626261b1a1f1d201e2122231c2427262626261a1b1b1b1b1b1b1b1b1b1b2d262626261b262626261b262626262626262626261b262626261b262626262626262626261b262626261b262626262626262626261b262626261b262626262626262626261b262626261b1b1d201e2122262626261b262626261b1b1b1b1b1b1b2626262625262626262626262626261b2626262625262626262626262626261b262626262526262626262626262626262626262625252525252525252525192626`,
             img`
 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
 2 2 2 . 2 2 2 2 2 2 2 2 2 2 2 2 
@@ -204,7 +185,46 @@ tiles.setTilemap(tiles.createTilemap(
 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
 2 2 2 2 2 2 2 2 2 2 2 2 2 . 2 2 
 `,
-            [myTiles.tile0,sprites.builtin.oceanDepths3,sprites.builtin.oceanDepths6,sprites.builtin.oceanDepths4,sprites.builtin.oceanDepths8,sprites.builtin.oceanDepths9,sprites.builtin.oceanSand6,sprites.builtin.oceanSand10,sprites.builtin.oceanSand3,sprites.builtin.oceanSand0,sprites.dungeon.greenOuterNorthWest,sprites.dungeon.greenOuterWest0,sprites.dungeon.greenOuterNorth1,sprites.dungeon.greenOuterNorthEast,sprites.dungeon.greenOuterEast0,sprites.dungeon.greenOuterSouthEast,sprites.dungeon.greenInnerSouthWest,sprites.dungeon.greenInnerSouthEast,sprites.dungeon.greenInnerNorthEast,sprites.dungeon.greenInnerNorthWest,sprites.dungeon.greenOuterSouth0,sprites.dungeon.greenOuterWest1,sprites.dungeon.greenOuterNorth0,sprites.dungeon.greenOuterSouthWest,sprites.dungeon.greenOuterSouth1,sprites.builtin.brick,sprites.dungeon.hazardSpike,sprites.dungeon.collectibleInsignia,sprites.builtin.crowd7,sprites.builtin.crowd1,sprites.builtin.crowd3,sprites.builtin.crowd0,sprites.builtin.crowd2,sprites.builtin.crowd4,sprites.builtin.crowd5,sprites.builtin.crowd6,sprites.builtin.crowd8,sprites.dungeon.hazardLava0,sprites.dungeon.hazardLava1,sprites.builtin.crowd9,sprites.dungeon.hazardWater,sprites.dungeon.stairLadder,sprites.dungeon.buttonOrange,sprites.castle.rock0,sprites.dungeon.darkGroundNorth,sprites.dungeon.buttonPinkDepressed],
+            [myTiles.tile0,sprites.builtin.oceanDepths3,sprites.builtin.oceanDepths6,sprites.builtin.oceanDepths4,sprites.builtin.oceanDepths8,sprites.builtin.oceanDepths9,sprites.builtin.oceanSand6,sprites.builtin.oceanSand10,sprites.builtin.oceanSand3,sprites.builtin.oceanSand0,sprites.dungeon.greenOuterNorthWest,sprites.dungeon.greenOuterWest0,sprites.dungeon.greenOuterNorth1,sprites.dungeon.greenOuterNorthEast,sprites.dungeon.greenOuterEast0,sprites.dungeon.greenOuterSouthEast,sprites.dungeon.greenInnerSouthWest,sprites.dungeon.greenInnerSouthEast,sprites.dungeon.greenInnerNorthEast,sprites.dungeon.greenInnerNorthWest,sprites.dungeon.greenOuterSouth0,sprites.dungeon.greenOuterWest1,sprites.dungeon.greenOuterNorth0,sprites.dungeon.greenOuterSouthWest,sprites.dungeon.greenOuterSouth1,sprites.builtin.brick,sprites.dungeon.hazardSpike,sprites.dungeon.collectibleInsignia,sprites.builtin.crowd7,sprites.builtin.crowd1,sprites.builtin.crowd3,sprites.builtin.crowd0,sprites.builtin.crowd2,sprites.builtin.crowd4,sprites.builtin.crowd5,sprites.builtin.crowd6,sprites.builtin.crowd8,sprites.dungeon.hazardLava0,sprites.dungeon.hazardLava1,sprites.builtin.crowd9,sprites.dungeon.hazardWater,sprites.dungeon.stairLadder,sprites.dungeon.buttonOrange,sprites.castle.rock0,sprites.dungeon.darkGroundNorth,sprites.dungeon.buttonPinkDepressed,sprites.dungeon.floorDark3],
             TileScale.Sixteen
         ))
-scene.cameraFollowSprite(Player1)
+    scene.cameraFollowSprite(Player1)
+    game.showLongText("You have gained a skill, you can now throw rocks by pressing the button \"b\". Use it to destroy anything in your path.", DialogLayout.Bottom)
+}
+function doWin () {
+    scene.setBackgroundColor(1)
+    Rock = sprites.create(img`
+. . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . f f f f . . . . . . . . . . 
+. . . . . . . . f f 1 1 1 1 f f . . . . . . . . 
+. . . . . . . f b 1 1 1 1 1 1 b f . . . . . . . 
+. . . . . . . f 1 1 1 1 1 1 1 1 f . . . . . . . 
+. . . . . . f d 1 1 1 1 1 1 1 1 d f . . . . . . 
+. . . . . . f d 1 1 1 1 1 1 1 1 d f . . . . . . 
+. . . . . . f d d d 1 1 1 1 d d d f . . . . . . 
+. . . . . . f b d b f d d f b d b f . . . . . . 
+. . . . . . f c d c f 1 1 f c d c f . . . . . . 
+. . . . . . . f b 1 1 1 1 1 1 f f f f . . . . . 
+. . . . . . f f f c d b 1 b c 1 1 1 c f . . . . 
+. . . . f c 1 1 1 c b f b f 1 b 1 b 1 f . . . . 
+. . . . f 1 b 1 b 1 f f f f b f b f b f . . . . 
+. . . . f b f b f f f f f f f . . . . . . . . . 
+. . . . . . . . . f f f f f . . . . . . . . . . 
+. . . . . . . . . . f f f . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . . . . . . . . . 
+`, SpriteKind.Player)
+    game.showLongText("So you won, you have escaped from the Underworld, for now...", DialogLayout.Bottom)
+    game.over(true)
+}
+let Rock: Sprite = null
+let Player1: Sprite = null
+let enemyprojectile: Sprite = null
+let Narrator2: Sprite = null
+doNarrator()
+doPlayer()
