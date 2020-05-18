@@ -22,10 +22,6 @@ namespace myTiles {
 . . . . . . . . . . . . . . . . 
 `
 }
-scene.onOverlapTile(SpriteKind.Projectile, sprites.dungeon.hazardSpike, function (sprite, location) {
-    tiles.setTileAt(location, sprites.dungeon.collectibleInsignia)
-    tiles.setWallAt(location, false)
-})
 function doNarrator () {
     scene.setBackgroundColor(1)
     Narrator2 = sprites.create(img`
@@ -58,6 +54,13 @@ function doNarrator () {
     pause(100)
     Narrator2.destroy()
 }
+scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonPinkDepressed, function (sprite, location) {
+    tiles.setTileAt(location, sprites.dungeon.collectibleInsignia)
+    for (let value of tiles.getTilesByType(sprites.dungeon.hazardLava0)) {
+        tiles.setTileAt(value, sprites.dungeon.collectibleInsignia)
+        tiles.setWallAt(value, false)
+    }
+})
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonTeal, function (sprite, location) {
     tiles.setTileAt(location, sprites.dungeon.floorLight0)
     for (let value of tiles.getTilesByType(sprites.dungeon.purpleSwitchDown)) {
@@ -137,6 +140,12 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 . . . . . . . . . . . . . . . . 
 `, Player1, 0, 48)
 })
+scene.onHitWall(SpriteKind.Projectile, function (sprite) {
+    tiles.setTileAt(tiles.getTileLocation(3, 5), sprites.dungeon.collectibleInsignia)
+    tiles.setWallAt(tiles.getTileLocation(3, 5), false)
+    tiles.setTileAt(tiles.getTileLocation(4, 4), sprites.dungeon.collectibleInsignia)
+    tiles.setWallAt(tiles.getTileLocation(4, 4), false)
+})
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.buttonOrange, function (sprite, location) {
     tiles.setTileAt(location, sprites.dungeon.floorLight0)
     for (let value of tiles.getTilesByType(sprites.dungeon.hazardSpike)) {
@@ -176,26 +185,26 @@ f b b b b f 2 2 2 2 f d 4 . . . . . . . . . . .
 controller.moveSprite(Player1)
 Player1.setPosition(61, 26)
 tiles.setTilemap(tiles.createTilemap(
-            hex`10001000262626262626262626262626262626262626261b2626262626262626262626262626261b2626262626262626262626262626261b2626262626262626262626262626261b1a1f1d201e2122231c2427262626261a1b1b1b1b1b1b1a1b1b1b2a262626261b262626261b262626262626262626261b262626261a262626262626262626261b262626261b262626262626262626261b262626261b262626262626262626261b262626261b1b1d201e2122262626261a262626261b1b1b1b1b1b1b2626262625262626262626262626261b2626262625262626262626262626261b26262626252626262626262626261b1b2626262625252525252525252525292626`,
+            hex`10001000262626262626262626262626262626262626261b2626262626262626262626262626261b2626262626262626262626262626261b2626262626262626262626262626261b1a1f1d201e2122231c2427262626261a1b1b1b1b1b1b1b1b1b1b2d262626261b262626261b262626262626262626261b262626261b262626262626262626261b262626261b262626262626262626261b262626261b262626262626262626261b262626261b1b1d201e2122262626261b262626261b1b1b1b1b1b1b2626262625262626262626262626261b2626262625262626262626262626261b262626262526262626262626262626262626262625252525252525252525292626`,
             img`
 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
 2 2 2 . 2 2 2 2 2 2 2 2 2 2 2 2 
 2 2 2 . 2 2 2 2 2 2 2 2 2 2 2 2 
 2 2 2 . 2 2 2 2 2 2 2 2 2 2 2 2 
 2 2 2 . 2 2 2 2 2 2 2 2 2 2 2 2 
-2 2 2 2 . . . . . . 2 . . . . 2 
+2 2 2 2 . . . . . . . . . . . 2 
 2 2 2 . 2 2 2 2 . 2 2 2 2 2 2 2 
-2 2 2 . 2 2 2 2 2 2 2 2 2 2 2 2 
+2 2 2 . 2 2 2 2 . 2 2 2 2 2 2 2 
 2 2 2 . 2 2 2 2 . 2 2 2 2 2 2 2 
 2 2 2 . 2 2 2 2 . 2 2 2 2 2 2 2 
 2 2 2 . 2 2 2 2 . . 2 2 2 2 2 2 
-2 2 2 2 2 2 2 2 . . . . . . . 2 
+2 2 2 . 2 2 2 2 . . . . . . . 2 
 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . 2 
 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . 2 
-2 2 2 2 2 2 2 2 2 2 2 2 2 . . 2 
+2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
 2 2 2 2 2 2 2 2 2 2 2 2 2 . 2 2 
 `,
-            [myTiles.tile0,sprites.builtin.oceanDepths3,sprites.builtin.oceanDepths6,sprites.builtin.oceanDepths4,sprites.builtin.oceanDepths8,sprites.builtin.oceanDepths9,sprites.builtin.oceanSand6,sprites.builtin.oceanSand10,sprites.builtin.oceanSand3,sprites.builtin.oceanSand0,sprites.dungeon.greenOuterNorthWest,sprites.dungeon.greenOuterWest0,sprites.dungeon.greenOuterNorth1,sprites.dungeon.greenOuterNorthEast,sprites.dungeon.greenOuterEast0,sprites.dungeon.greenOuterSouthEast,sprites.dungeon.greenInnerSouthWest,sprites.dungeon.greenInnerSouthEast,sprites.dungeon.greenInnerNorthEast,sprites.dungeon.greenInnerNorthWest,sprites.dungeon.greenOuterSouth0,sprites.dungeon.greenOuterWest1,sprites.dungeon.greenOuterNorth0,sprites.dungeon.greenOuterSouthWest,sprites.dungeon.greenOuterSouth1,sprites.builtin.brick,sprites.dungeon.hazardSpike,sprites.dungeon.collectibleInsignia,sprites.builtin.crowd7,sprites.builtin.crowd1,sprites.builtin.crowd3,sprites.builtin.crowd0,sprites.builtin.crowd2,sprites.builtin.crowd4,sprites.builtin.crowd5,sprites.builtin.crowd6,sprites.builtin.crowd8,sprites.dungeon.hazardLava0,sprites.dungeon.hazardLava1,sprites.builtin.crowd9,sprites.dungeon.hazardWater,sprites.dungeon.stairLadder,sprites.dungeon.buttonOrange,sprites.castle.rock0],
+            [myTiles.tile0,sprites.builtin.oceanDepths3,sprites.builtin.oceanDepths6,sprites.builtin.oceanDepths4,sprites.builtin.oceanDepths8,sprites.builtin.oceanDepths9,sprites.builtin.oceanSand6,sprites.builtin.oceanSand10,sprites.builtin.oceanSand3,sprites.builtin.oceanSand0,sprites.dungeon.greenOuterNorthWest,sprites.dungeon.greenOuterWest0,sprites.dungeon.greenOuterNorth1,sprites.dungeon.greenOuterNorthEast,sprites.dungeon.greenOuterEast0,sprites.dungeon.greenOuterSouthEast,sprites.dungeon.greenInnerSouthWest,sprites.dungeon.greenInnerSouthEast,sprites.dungeon.greenInnerNorthEast,sprites.dungeon.greenInnerNorthWest,sprites.dungeon.greenOuterSouth0,sprites.dungeon.greenOuterWest1,sprites.dungeon.greenOuterNorth0,sprites.dungeon.greenOuterSouthWest,sprites.dungeon.greenOuterSouth1,sprites.builtin.brick,sprites.dungeon.hazardSpike,sprites.dungeon.collectibleInsignia,sprites.builtin.crowd7,sprites.builtin.crowd1,sprites.builtin.crowd3,sprites.builtin.crowd0,sprites.builtin.crowd2,sprites.builtin.crowd4,sprites.builtin.crowd5,sprites.builtin.crowd6,sprites.builtin.crowd8,sprites.dungeon.hazardLava0,sprites.dungeon.hazardLava1,sprites.builtin.crowd9,sprites.dungeon.hazardWater,sprites.dungeon.stairLadder,sprites.dungeon.buttonOrange,sprites.castle.rock0,sprites.dungeon.darkGroundNorth,sprites.dungeon.buttonPinkDepressed],
             TileScale.Sixteen
         ))
 scene.cameraFollowSprite(Player1)
