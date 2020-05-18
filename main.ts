@@ -95,6 +95,30 @@ scene.onOverlapTile(SpriteKind.Player, sprites.builtin.brick, function (sprite, 
     for (let value of tiles.getTilesByType(sprites.dungeon.collectibleInsignia)) {
         tiles.setTileAt(value, sprites.dungeon.floorDark3)
     }
+    for (let value of tiles.getTilesByType(sprites.dungeon.hazardLava1)) {
+        tiles.setTileAt(value, sprites.dungeon.floorDark3)
+    }
+    for (let value of tiles.getTilesByType(sprites.builtin.crowd7)) {
+        tiles.setTileAt(value, sprites.dungeon.floorDark3)
+    }
+    for (let value of tiles.getTilesByType(sprites.builtin.crowd1)) {
+        tiles.setTileAt(value, sprites.dungeon.floorDark3)
+    }
+    for (let value of tiles.getTilesByType(sprites.builtin.crowd3)) {
+        tiles.setTileAt(value, sprites.dungeon.floorDark3)
+    }
+    for (let value of tiles.getTilesByType(sprites.builtin.crowd0)) {
+        tiles.setTileAt(value, sprites.dungeon.floorDark3)
+    }
+    for (let value of tiles.getTilesByType(sprites.builtin.crowd2)) {
+        tiles.setTileAt(value, sprites.dungeon.floorDark3)
+    }
+    for (let value of tiles.getTilesByType(sprites.builtin.crowd4)) {
+        tiles.setTileAt(value, sprites.dungeon.floorDark3)
+    }
+    for (let value of tiles.getTilesByType(sprites.builtin.crowd5)) {
+        tiles.setTileAt(value, sprites.dungeon.floorDark3)
+    }
     doWin()
 })
 function doPlayer () {
